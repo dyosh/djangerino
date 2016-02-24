@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <h1>Todo</h1>
+  <div class="container">
+
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" placeholder="new item"></input>
+      <input type="submit" value="Submit"></input>
+    </form>
+
+     <ul>
+      {% for item in object_list %}      
+        <li>{{ item.content }}</li>
+      {% endfor %}
+     </ul>   
+  </div>
+
+
+</body>
+</html>
