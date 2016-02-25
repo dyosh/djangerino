@@ -16,4 +16,29 @@
     <h1>{{ post.title }}</h1>
     <p>{{ post.text|linebreaks }}</p>
   </div>
+
+  <hr>
+  <a href="{% url 'add_comment_to_post' post_id=post.pk %}" class="btn btn-default">Add comment</a>
+  {% for comment in post.comments.all %}
+    {% if user.is_authenticated or comment.approved_comment %}
+      <div class="comment">
+        <div class="date">
+          {{ comment.create_date }}
+          {% if not comment.approved_comment %}
+            <a href="{% url 'comment_remove' comment_id=comment.pk %}" class="btn btn-default">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            <a href="{% url 'comment_approve' comment_id=comment.pk %}" class="btn btn-default">
+              <span class="glyphicon glyphicon-ok"></span>
+            </a>
+          {% endif %}
+        </div>      
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+      </div>
+    {% endif %}
+  {% empty %}
+    <p>No comments here yet <( '.' )></p>
+  {% endfor %}
+
 {% endblock %}
