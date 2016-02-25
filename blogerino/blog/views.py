@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Post
 from .forms import PostForm
@@ -7,6 +8,7 @@ def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
 
+@login_required
 def post_draft_list(request):
     posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
@@ -15,6 +17,7 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     return render(request, 'blog/post_detail.html', {'post': post})
 
+@login_required
 def post_new(request):
     # (Dan): this method gets calledback after submitting the POST request
     # (Dan): so we do the logic back in this method, should find a way to explicitly call a custom method.
@@ -34,16 +37,19 @@ def post_new(request):
 
     return render(request, 'blog/post_edit.html', {'form': form})
 
+@login_required
 def post_publish(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.publish()
     return redirect('post_detail', post_id)
 
+@login_required
 def post_delete(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.delete()
     return redirect('blog.views.post_list') #(Dan): same as just putting 'post_list', this may be more clear.
 
+@login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.method == "POST":
