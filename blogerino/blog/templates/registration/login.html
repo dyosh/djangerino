@@ -6,6 +6,7 @@
     <p>Your username and password didn't match. Please try again.</p>
   {% endif %}
 
+  <h1>Login</h1>
   <form method="POST" action="{% url 'django.contrib.auth.views.login' %}">
     {% csrf_token %}
     <table>
@@ -24,4 +25,6 @@
 
   </form>
 
+  <h1>Not a current user?</h1>
+  <a href="{% url 'register' %}"><h4>Register</h4></a>
 {% endblock %}

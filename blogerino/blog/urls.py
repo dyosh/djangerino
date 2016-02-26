@@ -13,4 +13,6 @@ urlpatterns = [
 
     url(r'^comment/(?P<comment_id>\d+)/remove/$', views.comment_remove, name='comment_remove'),
     url(r'^comment/(?P<comment_id>\d+)/approve/$', views.comment_approve, name='comment_approve'),
+
+    url(r'^accounts/register/$', views.register, name='register'),
 ]
